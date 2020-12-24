@@ -1,0 +1,41 @@
+---
+layout: default
+---
+
+<div class="all_episodes-wrapper">
+    <div class="all-episodes">
+        <h1>{{ page.tag }}</h1>
+
+            {% assign episodes = site.episodes | sort: 'date' | reverse %}
+            {% for episode in episodes %}
+                {% for cat in episode.categories %} 
+                {% if cat == page.tag %}
+                    <a class="episode-card" href="{{episode.url}}">
+                        <img src="{{episode.thumbnail}}" alt="{{episode.title}}">
+                        <div class="episode-card-content">
+                            <h3>{{episode.title}}</h3>
+                            <p>{{ episode.content | strip_html | truncatewords: 40 }}</p>
+                            <div>האזינו לפרק</div>
+                        </div>
+                        
+                    </a>
+                    {% endif %} 
+                {% endfor %}
+            {% endfor %}
+
+            {% for post in site.posts %}
+                {% for cat in post.categories %} 
+                    {% if cat == page.tag %}
+                        <a class="episode-card" href="{{post.url}}">
+                            <img src="{{post.thumbnail}}" alt="{{post.title}}">
+                            <div class="episode-card-content">
+                                <h3>{{post.title}}</h3>
+                                <p>{{ post.content | strip_html | truncatewords: 40 }}</p>
+                            </div>
+                            
+                        </a>
+                    {% endif %}
+                {% endfor %}
+            {% endfor %}
+    </div>
+    </div>

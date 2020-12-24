@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="he">
+    <head>
+        {%- include meta.html -%}
+        <title>עבר פלילי עם דנה הילמן | Criminal Record podcast</title>
+    </head>
+   
+    {%- include css_links.html -%}
+    <body>
+        <div id="container"  dir="rtl">
+            {%- include header.html -%}
+            <div id='main'>
+                <img src="assets/avar_plyly_logo_small_white_back_with_red2.png"></img>
+                <div id="main-page-title">
+                    עבר פלילי עם דנה הילמן
+                </div>
+                <div id="main-page-secondary-title">
+                    Criminal Record podcast
+                </div>
+                <div id="main-page-title-large-buttons">
+                    <a href="/episodes" class="hvr-grow">האזינו לפרקים</a>
+                    <a href="/contact" class="hvr-grow">שמרו על קשר</a>
+                </div>    
+            </div>
+
+            <!-- LAST EPISODES section .... -->
+            <div class="last-episodes-section">
+                {% assign episodes = site.episodes | sort: 'date' | reverse %}
+
+                <h3>פרקים אחרונים</h3>
+                <div class="last-episodes-section-list">
+                    {% for episode in episodes limit:1 %}
+
+                    <a class="record-card-first hvr-fade" href='{{episode.url}}'>
+                        <img src="{{ episode.thumbnail }}">
+                        <span><span>{{ episode.title }}</span></span>
+                    </a>
+                    {% endfor %}
+                    
+
+                    
+                    <div class="record-cards-small">
+                        {% for episode in episodes offset:1 limit:4 %}
+                        <a class="record-card hvr-fade" href='{{episode.url}}'>
+                            <img src="{{ episode.thumbnail }}">
+                            <span><span>{{ episode.title }}</span></span>
+                        </a>
+                        {% endfor %}
+
+                    </div>
+                    
+                    
+                </div>
+                <a class="more-episodes-btn" href='/episodes'>לכל הפרקים...</a>
+            </div>
+            
+            <!-- LAST posts section .... -->
+            <div class="last-episodes-section">
+                <h3>רשומות אחרונות</h3>
+                
+                <div class=".posts-cards-small">
+                    {% for post in site.posts offset:1 limit:4 %}
+                    <a class="record-card hvr-fade" href='{{post.url}}'>
+                        <img src="{{post.thumbnail}}">
+                        <span>
+                            <span>
+                            {{post.title}}
+                            </span>
+                        </span>
+                    </a>
+                    {% endfor %}
+                    
+                 
+                </div>
+                <a class="more-episodes-btn" href='/posts'>לכל הרשומות...</a>
+                </div>
+                <div class="last-episodes-section">
+                    <h3>נושאים</h3>
+                    {% include categories-list.html %}
+                </div>
+                
+            </div>
+            
+            
+
+        </div>
+        <!-- "container end" -->
+    </body>
+</html>

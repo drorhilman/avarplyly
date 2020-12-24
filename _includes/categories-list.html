@@ -1,0 +1,12 @@
+<div class="categories-list">
+{% for category in site.category %}
+      
+        <a class='home-category' href="/category-{{ category.tag }}">
+          
+          <img src="/assets/{{category.tag}}.png">
+          <div>{{ category.tag }}</div>
+          
+        </a>
+{% endfor %}
+
+</div>

@@ -1,0 +1,19 @@
+---
+layout: default
+permalink: /posts
+---
+<div class="all_episodes-wrapper">
+<div class="all-episodes">
+    <h1>כל הרשומות</h1>
+        {% for post in site.posts %}
+            <a class="episode-card" href="{{post.url}}">
+                <img src="{{post.thumbnail}}" alt="{{post.title}}">
+                <div class="episode-card-content">
+                    <h3>{{post.title}}</h3>
+                    <p>{{ post.content | strip_html | truncatewords: 40 }}</p>
+                </div>
+                
+            </a>
+        {% endfor %}
+</div>
+</div>

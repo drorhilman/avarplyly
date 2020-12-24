@@ -1,0 +1,66 @@
+---
+layout: default
+permalink: /episodes
+---
+<div class="all_episodes-wrapper">
+<div class="all-episodes-where">
+    <h1>היכן להאזין</h1>
+    <div class="where-to-listen-card">
+          
+    <a target="_blank" rel="noopener" href="https://podcasts.apple.com/podcast/id1444409236?ct=podlink&mt=2&app=podcast&ls=1">
+        <img title="Apple Podcasts" src="/assets/icon-applepodcasts.svg"> 
+      </a>
+      
+      <a target="_blank" rel="noopener" href="https://open.spotify.com/show/7KTxrbH0XpnGeHbt1RAQkM" class="show-link" data-v-07828f6f="">
+          <img title="Spotify" src="/assets/icon-spotify.svg"> 
+          
+          <a target="_blank" rel="noopener" href="https://podcasts.google.com/?feed=aHR0cHM6Ly9mZWVkLnBvZGJlYW4uY29tL3BseWx5L2ZlZWQueG1s" class="show-link" data-v-07828f6f="">
+              <img title="Google Podcasts" src="/assets/icon-googlepodcasts.svg"> 
+          </a>
+          
+          <a target="_blank" rel="noopener" href="https://castbox.fm/vic/1444409236" class="show-link" data-v-07828f6f="">
+              <img title="Castbox" src="/assets/icon-castbox.svg"> 
+          </a>
+          
+          </a>
+          <a target="_blank" rel="noopener" href="https://plyly.podbean.com/" class="show-link" data-v-07828f6f="">
+          <img title="RSS" src="/assets/icon-podbean.png"> 
+          </a>
+      
+        <a target="_blank" rel="noopener" href="https://pca.st/itunes/1444409236" class="show-link" data-v-07828f6f="">
+        <img title="Pocket Casts" src="/assets/icon-pocketcasts.svg"> 
+        </a>
+
+        <a target="_blank" rel="noopener" href="https://player.fm/series/https%253A%252F%252Ffeed%252Epodbean%252Ecom%252Fplyly%252Ffeed%252Exml" class="show-link" data-v-07828f6f="">
+        <img title="Player FM" src="/assets/icon-playerfm.svg"> 
+        </a>
+  
+        <a target="_blank" rel="noopener" href="https://www.breaker.audio/shows?feed_url=https%3A%2F%2Ffeed.podbean.com%2Fplyly%2Ffeed.xml" class="show-link" data-v-07828f6f="">
+        <img title="Breaker" src="/assets/icon-breaker.svg"> 
+        </a>
+  
+        <a target="_blank" rel="noopener" href="https://radiopublic.com/https%3A%2F%2Ffeed.podbean.com%2Fplyly%2Ffeed.xml" class="show-link" data-v-07828f6f="">
+        <img title="RadioPublic" src="/assets/icon-radiopublic.svg"> 
+        
+        </a>
+        <a target="_blank" rel="noopener" href="https://feed.podbean.com/plyly/feed.xml" class="show-link" data-v-07828f6f="">
+        <img title="RSS" src="/assets/icon-rss.svg"> 
+        </a>
+    </div>
+</div>
+<div class="all-episodes">
+    <h1>כל הפרקים</h1>
+    {% assign episodes = site.episodes | sort: 'date' | reverse %}
+        {% for episode in episodes %}
+            <a class="episode-card" href="{{episode.url}}">
+                <img src="{{episode.thumbnail}}" alt="{{episode.title}}">
+                <div class="episode-card-content">
+                    <h3>{{episode.title}}</h3>
+                    <p>{{ episode.content | strip_html | truncatewords: 40 }}</p>
+                    <div>האזינו לפרק</div>
+                </div>
+                
+            </a>
+        {% endfor %}
+</div>
+</div>
