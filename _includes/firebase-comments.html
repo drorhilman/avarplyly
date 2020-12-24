@@ -1,0 +1,208 @@
+<!-- SEE: https://frankindev.com/2017/03/25/self-host-comments-in-jekyll-using-firebase-database/ -->
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/blueimp-md5/2.18.0/js/md5.min.js"></script>
+<script src="https://www.gstatic.com/firebasejs/7.23.0/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/7.23.0/firebase-database.js"></script>
+
+<script>
+    var firebaseConfig = {
+        apiKey: "AIzaSyAsSPD2QLLYXyvWlDBpw_GrtzsgIGb1QBE",
+        authDomain: "avarplyly.firebaseapp.com",
+        databaseURL: "https://avarplyly.firebaseio.com",
+        projectId: "avarplyly",
+        storageBucket: "avarplyly.appspot.com",
+        messagingSenderId: "847518008569",
+        appId: "1:847518008569:web:f9f745c136d2002d21ce28",
+        measurementId: "G-0Q0YGTH2E9",
+    };
+
+    firebase.initializeApp(firebaseConfig);
+    // firebase.analytics();
+    var database = firebase.database()
+    
+    function loadComments(){
+        const location_id = md5(window.location.pathname);
+        database.ref(`comments/${location_id}`).once('value').then((snapshot) => {
+            const comments = snapshot.val();
+            
+            // iterate over loaded comments ...
+            let comments_html = "";
+            for (const [comment_id, comment] of Object.entries(comments)) {
+    
+                var d = new Date(comment.postedAt);
+                var date = `${d.getUTCDay()}/${d.getUTCMonth()}/${d.getUTCFullYear()}`
+                comments_html += '<div class="comment-wrap">';
+                comments_html += '<div class="comment-name">' + comment.name;
+                comments_html += '<div class="comment-date">' + date + '</div></div>';
+                comments_html += '<div class="comment-content">' + comment.content + '</div>';
+                comments_html += '</div>';
+            }
+            const comment_section = document.getElementById('comment-section');
+            
+            comment_section.innerHTML = comments_html;
+
+        });
+
+    }
+
+    function addComment(user, email, message) {
+        const location_id = md5(window.location.pathname);
+        const comment_id = md5(Date.now() + name)
+        console.log(comment_id);
+        database.ref(`comments/${location_id}/${comment_id}`)
+            .set({
+                name: user,
+                email: email,
+                content: message,
+                link: window.location.pathname,
+                postedAt: Date.now(),
+                md5Email: md5(email)
+            })
+            .then(function (docRef) {
+                console.log("comment written to database!");
+                loadComments();
+            })
+            .catch(function (error) {
+                console.error("Error adding comment: ", error);
+                alert('לא ניתן היה לשמור את ההערה - נסו מאוחר יותר');
+            });
+    }
+
+
+
+    window.sendComment = (event) => {
+        const errorMessages = document.getElementById("comments-error-messages");
+        errorMessages.innerHTML = "";
+
+        const user = document.getElementById("user-name").value;
+        const email = document.getElementById("user-email").value;
+        const message = document.getElementById("message").value;
+        
+        if (user == "") {
+            errorMessages.innerHTML = "יש למלא שם";
+            return;
+        }
+        if (message.length < 2) {
+            errorMessages.innerHTML = "יש להוסיף תוכן";
+            return;
+        }
+        addComment(user, email, message);
+    };
+</script>
+
+<style>
+    #comments-error-messages {
+        color: crimson;
+        font-size: 20px;
+    }
+    .firebase-comments {
+        /* Flex Properties */
+        display: flex;
+        flex-wrap: wrap;
+        flex-direction: column;
+        align-items: right;
+    }
+    #comment-form {
+        display: flex;
+        flex-wrap: wrap;
+        flex-direction: column;
+        align-items: right;
+        width: 100%;
+        margin: auto;
+        background:black;
+        padding-top:10px;
+        margin-bottom:20px;
+        border-radius: 6px;
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    }
+    #user-name,
+    #user-email,
+    #message {
+        font-size: 18px;
+        
+        display: flex;
+        border-radius: 6px;
+        margin: 5px 20px;
+        padding: 5px;
+        border:1px solid lightgrey;
+    }
+
+
+    #btn-send-message {
+        width: 120px;
+        text-align: center;
+        padding: 6px;
+        font-size: 18px;
+        border: 1px solid #bf360c;
+        border-radius: 6px;
+        background: #bf360c;
+        color: white;
+        cursor: pointer;
+    }
+
+    #btn-send-message:hover {
+        background: crimson;
+    }
+
+    #button-wrapper {
+        
+        padding: 5px;
+        text-align: left;
+    }
+
+    #comment-section{
+        display:flex;
+        flex-wrap: nowrap;
+        width:100%;
+        flex-direction: column;
+    }
+    .comment-wrap{
+        background-color: darkred;
+        margin:5px 20px;
+        padding:5px 10px;
+        border-radius:8px;
+        width:90%;
+        display: grid;
+        grid-template-columns:  120px auto;
+        grid-gap: 10px;
+
+    }
+    .comment-name{
+        color:darkblue;
+        font-size:18px;
+    }
+    .comment-date{
+        color:darkslategray;
+        font-size: 12px;
+        font-weight:300;
+        text-align:right;
+        direction:ltr;
+    }
+    .comment-content {
+        padding:8px;
+        background:transparent;
+        border-radius:8px;
+    }
+</style>
+
+<comments class="firebase-comments" dir="rtl">
+    <h3>הוסיפו הערות:</h3>
+    <div id="comments-error-messages"></div>
+    <form id="comment-form">
+        <input type="text" id="user-name" placeholder="👩 שם" />
+        <input type="email" id="user-email" placeholder="✉️ email" />
+        <textarea id="message" placeholder="תוכן"> </textarea>
+        <div id="button-wrapper">
+            <button id="btn-send-message" onclick="sendComment()" type="button">שלחו</button>
+        </div>
+    </form>
+
+    <div id='comment-section'>
+        <!-- HERE ARE THE COMMENTS FROM FIREBASE ...-->
+    </div>
+</comments>
+
+
+<script>
+    loadComments();
+</script>

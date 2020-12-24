@@ -1,0 +1,72 @@
+# Welcome to Jekyll!
+#
+# This config file is meant for settings that affect your whole blog, values
+# which you are expected to set up once and rarely edit after that. If you find
+# yourself editing this file very often, consider using Jekyll's data files
+# feature for the data you need to update frequently.
+#
+# For technical reasons, this file is *NOT* reloaded automatically when you use
+# 'bundle exec jekyll serve'. If you change this file, please restart the server process.
+#
+# If you need help with YAML syntax, here are some quick references for you: 
+# https://learn-the-web.algonquindesign.ca/topics/markdown-yaml-cheat-sheet/#yaml
+# https://learnxinyminutes.com/docs/yaml/
+#
+# Site settings
+# These are used to personalize your new site. If you look in the HTML files,
+# you will see them accessed via {{ site.title }}, {{ site.email }}, and so on.
+# You can create any custom variable you would like, and they will be accessible
+# in the templates via {{ site.myvariable }}.
+
+title: עבר פלילי עם דנה הילמן
+email: danahilman@gmail.com
+description:  עבר פלילי עם דנה הילמן
+baseurl: "/" # the subpath of your site, e.g. /blog
+url: "http://avar-plyly.com/" # the base hostname & protocol for your site, e.g. http://example.com
+repository: drorhilman/avarplyly
+
+twitter_username: AvarPlyly
+facebook_username: CriminalRecordPod
+linkedin_username: dana-hilman-6967b213a
+
+plugins:
+  # - jekyll-paginate
+  - jekyll-feed
+  - jekyll-sitemap
+paginate: 3
+paginate_path: posts/page:num/
+permalink: /:categories/:title/
+
+
+collections:
+  episodes:
+    output: true
+    permalink: /episodes/:path/
+  category:
+    output: true
+    permalink: /:path/
+
+defaults:
+  -
+    scope:
+      path: ""
+      type: category
+    values:
+      layout: "category"
+
+
+# staticman_url: https://avarplyly.herokuapp.com/v2/entry/drorhilman/avarplyly/master/comments
+
+exclude:
+  - .sass-cache/
+  - .jekyll-cache/
+  - gemfiles/
+  - Gemfile
+  - Gemfile.lock
+  - node_modules/
+  - vendor/bundle/
+  - vendor/cache/
+  - vendor/gems/
+  - vendor/ruby/
+
+# github: [metadata] encoding: UTF-8 kramdown: input: GFM hard_wrap: false
