@@ -1,6 +1,10 @@
 
 @import url('https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300;0,500;0,600;1,300&display=swap');
 
+body {
+    overflow-x:hidden;
+}
+
 ::-webkit-scrollbar {
     width: 10px;
     height: 10px;
@@ -386,6 +390,7 @@ body{
 
 
 /*  POST / EPISODES DESIGN */
+
 .post-content {
     margin: 100px auto;
     padding:20px;
@@ -410,6 +415,11 @@ h1.post-title {
 
 .post-content label{
     font-size:0.9em;
+}
+
+.post-content p,  
+.post-content hr{
+    margin-bottom: 1.5em;
 }
 
 .general-container{
