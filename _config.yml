@@ -33,8 +33,8 @@ plugins:
   # - jekyll-paginate
   - jekyll-feed
   - jekyll-sitemap
-paginate: 3
-paginate_path: posts/page:num/
+# paginate: 3
+# paginate_path: posts/page:num/
 permalink: /:categories/:title/
 
 
