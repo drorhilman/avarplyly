@@ -9,7 +9,7 @@ post_type: episode
 modified_time: '2021-04-12'
 date: '2021-04-12'
 thumbnail: /assets/underwater.jpg
-permalink: /UnderWater
+permalink: /UnderWater-post
 ---
 
 
