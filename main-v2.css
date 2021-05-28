@@ -282,7 +282,7 @@ body{
     font-size:14px;
     font-weight:100;
     background-color: rgba(90, 0, 0, 0.2);
-    mix-blend-mode: multiply;
+    /* mix-blend-mode: multiply; */
     padding:10px;
     margin:0;
     transition-duration: 3s;
@@ -561,6 +561,7 @@ h1.post-title {
     margin:23px 10px;
     background:#0f1416;
     text-decoration:none;
+    min-width:940px;
 }
 .episode-card:hover{
     filter: drop-shadow(0px 0px 8px #2f3d44);
