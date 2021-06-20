@@ -200,7 +200,16 @@ body{
     border:1px solid black;
     
 }
+#main-page-title-large-buttons a form input {
+    text-decoration: none;
+    font-family: var(--rubik-font);
+    font-size:20px;
+    color:white;
+    border:0;
+    background:transparent;
+    cursor: pointer;
 
+}
 
 .last-episodes-section{
     margin-top:200px;
