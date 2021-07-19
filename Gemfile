@@ -32,3 +32,4 @@ gem "wdm", "~> 0.1.1", :platforms => [:mingw, :x64_mingw, :mswin]
 gem "kramdown", ">= 2.3.0"
 
 gem 'jekyll-sitemap'
+gem "addressable", ">= 2.8.0"
