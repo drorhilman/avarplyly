@@ -53,7 +53,8 @@ permalink: /episodes
     {% assign episodes = site.episodes | sort: 'date' | reverse %}
         {% for episode in episodes %}
             <a class="episode-card" href="{{episode.url}}">
-                <img src="{{episode.thumbnail}}" alt="{{episode.title}}">
+                <!-- <img src="{{episode.thumbnail}}" alt="{{episode.title}}"> -->
+                <img src="/assets/avar_plyly_logo.jpg" alt="{{episode.title}}">
                 <div class="episode-card-content">
                     <h3>{{episode.title}}</h3>
                     <p>{{ episode.content | strip_html | truncatewords: 40 }}</p>
