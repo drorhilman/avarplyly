@@ -49,7 +49,8 @@
                     {% for episode in episodes limit:1 %}
 
                     <a class="record-card-first hvr-fade" href='{{episode.url}}'>
-                        <img src="{{ episode.thumbnail }}">
+                        <!-- <img src="{{ episode.thumbnail }}"> -->
+                        <img src="/assets/avar_plyly_logo.jpg" alt="{{episode.title}}">
                         <span><span>{{ episode.title }}</span></span>
                     </a>
                     {% endfor %}
@@ -59,7 +60,8 @@
                     <div class="record-cards-small">
                         {% for episode in episodes offset:1 limit:4 %}
                         <a class="record-card hvr-fade" href='{{episode.url}}'>
-                            <img src="{{ episode.thumbnail }}">
+                            <!-- <img src="{{ episode.thumbnail }}"> -->
+                            <img src="/assets/avar_plyly_logo.jpg" alt="{{episode.title}}">
                             <span><span>{{ episode.title }}</span></span>
                         </a>
                         {% endfor %}
@@ -78,7 +80,8 @@
                 <div class=".posts-cards-small">
                     {% for post in site.posts offset:1 limit:4 %}
                     <a class="record-card hvr-fade" href='{{post.url}}'>
-                        <img src="{{post.thumbnail}}">
+                        <!-- <img src="{{post.thumbnail}}"> -->
+                        <img src="/assets/avar_plyly_logo.jpg" alt="{{post.title}}">
                         <span>
                             <span>
                             {{post.title}}

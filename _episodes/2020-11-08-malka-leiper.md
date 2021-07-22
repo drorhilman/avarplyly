@@ -33,7 +33,7 @@ permalink: /leifer-insanity
 בזמן שלרובינו פה בישראל השם מלכה לייפר עדיין לא אמר כלום, ובקשת ההסגרה לא עניינה יותר מדיי אנשים כאן- למאני ווקס, המקרה הזה פתח מחדש את הפצע האישי שלו. מאני גדל בחברה החרדית במלבורן, ונפגע בעצמו מתקיפות מיניות בתור ילד.
 
 <div style="margin:20px;">
-    <img src="/assets/mannny-waks.png"/>
+    <img src="assets/avar_plyly_logo.jpg"/>
     <label style="display:block">מאני ווקס</label>
 </div>
 
@@ -52,7 +52,7 @@ permalink: /leifer-insanity
 לייפר הושעתה מיידית מתפקידה כמנהלת, ויומיים בלבד לאחר ההשעיה במרץ 2008, כבר הייתה על המטוס בדרך לישראל. מי שהשעו אותה ודאגו שהיא תחזור לישראל, היו אותם האנשים שדאגו להביא אותה למלבורן, לנהל את בית הספר: ראשי עדת ישראל.
 
 <div style="margin:20px;">
-    <img src="/assets/school1.png"/>
+    <img src="assets/avar_plyly_logo.jpg"/>
     <label style="display:block;">בית הספר לבנות של קהילת עדת ישראל <br/> במלבורן, צילום: עופר זליג.</label>
 </div>
 
