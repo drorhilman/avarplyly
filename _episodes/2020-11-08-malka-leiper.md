@@ -18,7 +18,7 @@ permalink: /leifer-insanity
 <br/>
 
 <div style="margin:20px;">
-    <img src='/assets/court-leifer1.png'>
+    <img src='assets/avar_plyly_logo.jpg'>
     <label style="display:block;">מחוץ לבית המשפט המחוזי בירושלים, 21.9.<br/>צילום: מאני ווקס.</label>
 </div>
 
