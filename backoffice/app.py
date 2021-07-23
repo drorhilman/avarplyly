@@ -3,11 +3,14 @@ import os, glob, yaml
 
 
 
-def load_post(filename):
+def load_post(filename, return_content = False):
     with open(filename,"r") as f:
-        content = f.read().split('---')[1]
-        js = yaml.load(content)
-        js['file'] = filename
+        content = f.read()
+        header = content.split('---')[1]
+        js = yaml.safe_load(header)
+        js['file'] = filename.replace('../', '')
+        if return_content:
+            js['content'] = content.split('---\n')[-1]
         return js
         
 
@@ -24,6 +27,11 @@ def post_editor():
 def send_js(path):
     return send_from_directory('js', path)
 
+
+@app.route('/assets/<path:path>')
+def assets(path):
+    return send_from_directory('../assets/', path)
+
 @app.route('/get_posts')
 def get_posts():
     posts = glob.glob('../_posts/*.*')
@@ -33,8 +41,18 @@ def get_posts():
     return jsonify(posts)
 
 
+@app.route('/get_post_data/<path:filepath>')
+def get_post_data(filepath):    
+    if not filepath.startswith('../'): 
+        filepath = '../' + filepath
+    return load_post(filepath, return_content=True)
+
+
+
+
+#=============================================================
 if __name__ == '__main__':
     episodes = glob.glob('../_episodes/*.*')
     for episode in episodes:
-        content = load_post(episode)
+        content = load_post(episode, return_content=True)
         print(content)

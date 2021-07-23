@@ -10,7 +10,17 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
     <script src="https://cdn.tiny.cloud/1/da3ihm5dotvgc7ihyhfxlhmax26ye6w5nal0bmfmreky9r1w/tinymce/5/tinymce.min.js" ></script>
 
-   
+   <style>
+       #posts-list-wrapper{
+        height:600px; 
+        overflow-y: auto;
+       }
+       .selectable:hover{
+          background:#fa8a6e;
+          cursor:pointer;
+       }
+
+   </style>
 
 </head>
 <body>
@@ -24,15 +34,49 @@
           </div>
           <div class="row">
 
-            <!-- editor ------------------------------------------------->
-            <!-- --------------------------------------------------------- -->
+            
             <div class="col s8">
+
+                <!-- FORM ------------------------------------------------->
+                <div class="card">
+                    <div class="card-content">
+                        <div class="row">
+                            
+                            <div class="input-field col s4">
+                                <input dir='ltr' placeholder="permalink" id="post_permalink" type="text" class="validate">
+                            </div>
+
+                            <div class="input-field col s8">
+                              <input placeholder="כותרת" id="post_title" type="text" class="validate">
+                            </div>
+                            
+                            <div class="input-field col s4">
+                                <input id="post_author" type="text" class="validate" placeholder="מחבר">
+                                <label for="post_author">מחבר</label>
+                            </div>
+
+                            <div class="input-field col s4">
+                              <input id="post_subjects" type="text" class="validate" placeholder="נושאים">
+                              <label for="post_subjects">נושאים</label>
+                            </div>
+
+                            <div class="input-field col s4">
+                                <input id="post_type" type="text" class="validate" placeholder="סוג התוכן (פוסט \ פרק)">
+                                <label for="post_type">content type (episode / post)</label>
+                            </div>
+
+                          </div>
+                    </div>
+                </div>
+                
+                <!-- editor ------------------------------------------------->
+                <!-- --------------------------------------------------------- -->
                 <textarea></textarea>
             </div>
 
             <!-- POSTS LIST ------------------------------------------------->
             <!-- --------------------------------------------------------- -->
-            <div class="col s4" style="height:600px; overflow-y: auto;">
+            <div id="posts-list-wrapper" class="col s4" onclick="post_header_clicked(event)">
                 <ul id="posts-collection" class="collection with-header"></ul>
             </div>
               
@@ -40,31 +84,76 @@
         </div>
 
         <script>
-            tinymce.init({
+         const content_editor = tinymce.init({
                 selector:'textarea',
                 directionality : 'rtl',
+                language: 'he_IL',
+                height: 600,
+                content_css: 'dark',
         });
         </script>
 
     <!-- MAIN INTERACTION SCRIPTS ..... -->
     <script>
 
-        
+        //-------------------------------------------
+        function load_content_to_tinymce_editor(post_json){
+            window.current_post = post_json;
+            tinymce.activeEditor.setContent(post_json.content);
+            document.getElementById('post_title').value = post_json.title;
+            document.getElementById('post_author').value = post_json.author;
+            document.getElementById('post_type').value = post_json.post_type;
+            document.getElementById('post_permalink').value = post_json.permalink;
+            document.getElementById('post_subjects').value = post_json.categories;
+            
+            
+            
+        }
 
+
+        //-------------------------------------------
+        function load_post_content(filename) {
+            let url = `get_post_data/${filename}`
+            fetch(url)
+                .then(response => response.json())
+                .then(post_json => load_content_to_tinymce_editor(post_json));
+        }
+
+
+        //-------------------------------------------
+        function post_header_clicked(event) {
+            const target = event.target;
+            
+            // remove the red color from all the items:
+            Array.from(document.querySelectorAll('.collection-item.selectable')).forEach(function(el) { 
+                el.classList.remove('red');
+            });
+            // add the red color to the cliecked item:
+            target.classList.add('red');
+            
+            const target_index = Array.prototype.indexOf.call(target.parentNode.children, target) - 1
+            const filename = window.posts[target_index].file
+            load_post_content(filename);
+        }
+
+        
+        //-------------------------------------------
         function load_posts_to_list(posts){
+            window.posts = posts;
             var ul = document.getElementById("posts-collection");
             var list_items = ` <li class="collection-header"><h4>פרקים ופוסטים</h4></li>`;
+            
             for (post of posts){
-                console.log(post);
-                list_items += `<li class="collection-item">${post.title}</li>`
-                // var li = document.createElement("li");
-                // li.appendChild(document.createTextNode(post.title));
-                // li.classList.add('collection-item')
-                // ul.appendChild(li);
-            ul.innerHTML = list_items
+                if (post.post_type == undefined){
+                    post.post_type = "post";
+                }
+                let post_type = "פרק"
+                if(post.post_type == "post"){post_type = "רשומה"}
 
+                let badge = `<span class="badge">${post_type}</span>`
+                list_items += `<li class="collection-item selectable lighten-4">${badge}${post.title}</li>`
             }
-
+            ul.innerHTML = list_items
         }
 
         // load and process posts
