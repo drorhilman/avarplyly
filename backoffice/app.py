@@ -24,6 +24,22 @@ def start_local_jekyll_server():
     builtins.proc = subprocess.Popen(["bundle", "exec","jekyll", "serve"], cwd="../", shell=shell)
     return str(builtins.proc)
 
+def run(*args):
+    cmd = ['git'] + list(args)
+    print(' '.join(cmd))
+    cwd = os.getcwd().replace('/backoffice','')
+    return subprocess.check_call(['git'] + list(args), cwd=cwd)
+
+def commit_and_push(commit_message):
+    try:
+        run("commit", "-am", f'"{commit_message}"')
+        # run("push", "origin", "master")
+    except Exception as e:
+        return {'status': 'error', 'error' : str(e)}
+    return 'ok'
+
+
+
 # -------------------------- API -------------------------
 app = Flask(__name__, static_url_path='')
 
@@ -104,6 +120,11 @@ def delete_post():
     if os.path.isfile(filename):
         os.remove(filename)
     return jsonify({'status': 'ok', 'file': filename, 'exist' : os.path.isfile(filename)})
+
+
+@app.route('/push_changes')
+def api_commit_and_push():
+    return commit_and_push(commit_message = "pushed by backoffice")
 
 #=============================================================
 if __name__ == '__main__':
