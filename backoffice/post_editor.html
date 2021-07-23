@@ -12,12 +12,21 @@
 
    <style>
        #posts-list-wrapper{
-        height:600px; 
+        height:800px; 
         overflow-y: auto;
        }
        .selectable:hover{
           background:#fa8a6e;
           cursor:pointer;
+       }
+       .asset-image{
+        width:20%; 
+        height:auto;
+        margin:10px;
+       }
+       #assets_list{
+           height:800px;
+           overflow-y: auto;
        }
 
    </style>
@@ -26,7 +35,7 @@
 <body>
     
     <body dir="rtl">
-        <div class="container">
+        <div style="margin:20px;">
           <div class="row">
               <div class="col-md-12">
                   <h3>עורך התוכן של עבר פלילי</h3>
@@ -34,8 +43,29 @@
           </div>
           <div class="row">
 
-            
-            <div class="col s8">
+            <div class="col s2">
+                <div class="card">
+                    <div class="card-content">
+                          
+                        <form method="POST" action="" enctype="multipart/form-data" id='image_upload_form'>
+                          <div class="file-field input-field">
+                            <div class="btn">
+                              <span>בחר תמונה</span>
+                              <input type="file" name="file">
+                            </div>
+                            <div class="file-path-wrapper">
+                              <input class="file-path validate" type="text">
+                            </div>
+                          </div>
+                          <input type="submit" class="btn" value="העלה תמונה" />
+                        </form>
+                        <h6>תמונות במערכת<br/>(לחצו להעתיק לינק)</h6>
+                        <div id="assets_list"></div>
+                    </div>
+                </div>
+                
+            </div>
+            <div class="col s7">
 
                 <!-- FORM ------------------------------------------------->
                 <div class="card">
@@ -65,7 +95,12 @@
                                 <label for="post_type">content type (episode / post)</label>
                             </div>
 
-                          </div>
+                        </div>
+                        <div class="row">
+                            <a class="btn green">שמור</a>
+                            <a class="btn blue" onclick="local_preview_post(event)">הצג באתר מקומי</a>
+                            <a class="btn orange">פרסם</a>
+                        </div>
                     </div>
                 </div>
                 
@@ -76,13 +111,13 @@
 
             <!-- POSTS LIST ------------------------------------------------->
             <!-- --------------------------------------------------------- -->
-            <div id="posts-list-wrapper" class="col s4" onclick="post_header_clicked(event)">
+            <div id="posts-list-wrapper" class="col s3" onclick="post_header_clicked(event)">
                 <ul id="posts-collection" class="collection with-header"></ul>
             </div>
               
           </div>
         </div>
-
+   <!-- ========================================================================================================== -->
         <script>
          const content_editor = tinymce.init({
                 selector:'textarea',
@@ -90,6 +125,14 @@
                 language: 'he_IL',
                 height: 600,
                 content_css: 'dark',
+                plugins: [
+    "advlist autolink lists link image charmap print preview anchor",
+    "searchreplace visualblocks code fullscreen",
+    "insertdatetime media table paste emoticons"
+  ],
+  toolbar:
+    "undo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image emoticons",
+  skin: "small",
         });
         </script>
 
@@ -160,7 +203,71 @@
         fetch('/get_posts')
             .then(response => response.json())
             .then(posts => load_posts_to_list(posts));
+        
+        
+        //-------------------------------------------
+        // load all available assets
+        function load_and_process_assets(assets){
+            let imgs = "";
+            for (asset of assets){
+                imgs += `<img class="asset-image" src="${asset}" onclick="image_clicked(event)"/>`
+            }
+            document.getElementById("assets_list").innerHTML = imgs;
+        }
 
+        function image_clicked(event){
+            const src = 'assets' + event.target.src.split('assets')[1];
+            navigator.clipboard.writeText(src).then(function() {
+                    M.toast({'html' : 'הלינק הועתק לזיכרון'})
+                }, function(err) {
+                    console.error('Async: Could not copy text: ', err);
+                });
+        }
+        
+        
+        //--------------------------------------------
+        function local_preview_post(event){
+            const permalink = document.getElementById('post_permalink').value;
+            if (permalink == ""){
+                M.toast({'html' : ' (permalink) נא להכניס את כתובת הפוסט שלך', classes: 'toast-warning'})
+                return
+            }
+            fetch('/start_jakyll_server')
+            .then(response => response.json())
+            .then(response => {
+                const url = response.address + permalink;
+                window.open(url, '_blank');
+            });    
+        }
+        
+        //--------------------------------------------
+        fetch('/get_assets_list')
+            .then(response => response.json())
+            .then(posts => load_and_process_assets(posts));
+
+
+
+
+        //-------------------------------------------
+        const image_upload_form = document.getElementById('image_upload_form');
+        image_upload_form.addEventListener('submit', function(event) {
+            event.preventDefault();
+            const formData = new FormData(this);
+            const url = '/upload_file';
+            fetch(url, {method: 'POST', body: formData})
+            .then(response => response.json())
+            .then(response => {
+                if(response.status = 'ok'){ 
+                    M.toast({'html' : 'התמונה הועלתה בהצלחה'})
+                    fetch('/get_assets_list')
+                        .then(response => response.json())
+                        .then(posts => load_and_process_assets(posts));
+                }
+                if(response.status = 'ok'){ 
+                    M.toast({'html' : 'התמונה כבר במערכת!'})
+                }
+            });
+        })
     </script>
 
       </body>
