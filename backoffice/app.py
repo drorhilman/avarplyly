@@ -36,7 +36,7 @@ def commit_and_push(commit_message):
         run('add', '_posts/*.*')
         run('add', '.')
         run("commit", "-am", f'"{commit_message}"')
-        # run("push", "origin", "master")
+        run("push", "origin", "master")
     except Exception as e:
         return {'status': 'error', 'error' : str(e)}
     return 'ok'
