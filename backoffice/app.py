@@ -32,6 +32,9 @@ def run(*args):
 
 def commit_and_push(commit_message):
     try:
+        run('add', '_episodes/*.*')
+        run('add', '_posts/*.*')
+        run('add', '.')
         run("commit", "-am", f'"{commit_message}"')
         # run("push", "origin", "master")
     except Exception as e:
