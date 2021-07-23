@@ -39,7 +39,7 @@ def commit_and_push(commit_message):
         run("push", "origin", "master")
     except Exception as e:
         return {'status': 'error', 'error' : str(e)}
-    return 'ok'
+    return {'status': 'ok'}
 
 
 
