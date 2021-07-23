@@ -7,7 +7,7 @@ builtins.proc = ''
 
 
 def load_post(filename, return_content = False):
-    with open(filename,"r") as f:
+    with open(filename,"r", encoding="utf8") as f:
         content = f.read()
         header = content.split('---')[1]
         js = yaml.safe_load(header)
@@ -27,7 +27,7 @@ app = Flask(__name__, static_url_path='')
 
 @app.route("/")
 def post_editor():
-    with open("post_editor.html","r") as f:
+    with open("post_editor.html","r", encoding="utf8") as f:
         return f.read()
 
 @app.route('/js/<path:path>')
@@ -89,7 +89,7 @@ def update_post():
     del post_data['content']
     header = str(yaml.dump(post_data, allow_unicode=True))
     html_content = f'---\n{header}---\n{html_content}'
-    with open(filename, 'w') as f:
+    with open(filename, 'w', encoding="utf8") as f:
         f.write(html_content)
     return jsonify({'status': 'ok', 'file': filename, 'exist' : os.path.isfile(filename)})
 
