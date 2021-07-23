@@ -80,17 +80,22 @@
                               <input placeholder="כותרת" id="post_title" type="text" class="validate">
                             </div>
                             
-                            <div class="input-field col s4">
+                            <div class="input-field col s3">
                                 <input id="post_author" type="text" class="validate" placeholder="מחבר">
                                 <label for="post_author">מחבר</label>
                             </div>
 
-                            <div class="input-field col s4">
+                            <div class="input-field col s3">
                               <input id="post_subjects" type="text" class="validate" placeholder="נושאים">
                               <label for="post_subjects">נושאים</label>
                             </div>
 
-                            <div class="input-field col s4">
+                            <div class="input-field col s3">
+                                <input id="post_thumbnail" type="text" class="validate" placeholder="thumbnail">
+                                <label for="post_thumbnail">thumbnail</label>
+                            </div>
+
+                            <div class="input-field col s3">
                                 <input id="post_type" type="text" class="validate" placeholder="סוג התוכן (פוסט \ פרק)">
                                 <label for="post_type">content type (episode / post)</label>
                             </div>
@@ -100,6 +105,7 @@
                             <a class="btn green" onclick="save_post(event)">שמור</a>
                             <a class="btn blue" onclick="local_preview_post(event)">הצג באתר מקומי</a>
                             <a class="btn orange">פרסם</a>
+                            <a class="btn red" onclick="delete_post(event)">מחק</a>
                         </div>
                     </div>
                 </div>
@@ -111,8 +117,9 @@
 
             <!-- POSTS LIST ------------------------------------------------->
             <!-- --------------------------------------------------------- -->
-            <div id="posts-list-wrapper" class="col s3" onclick="post_header_clicked(event)">
-                <ul id="posts-collection" class="collection with-header"></ul>
+            <div id="posts-list-wrapper" class="col s3" >
+                <a class="btn green" onclick="add_new_post(event)">תוכן חדש</a>
+                <ul id="posts-collection" class="collection with-header" onclick="post_header_clicked(event)"></ul>
             </div>
               
           </div>
@@ -148,8 +155,7 @@
             document.getElementById('post_type').value = post_json.post_type;
             document.getElementById('post_permalink').value = post_json.permalink;
             document.getElementById('post_subjects').value = post_json.categories;
-            
-            
+            document.getElementById('post_thumbnail').value = post_json.thumbnail;
             
         }
 
@@ -242,15 +248,34 @@
         
 
         //-------------------------------------------
-        function get_latest_post_before_save(){
+        function get_latest_post_data(){
             let post_json = window.current_post;
-            if (post_json == undefined){M.toast({'html' : 'יש להתחיל פוסט חדש לפני השמירה', classes: 'רקג warning'}); return false}
             post_json.title     = document.getElementById('post_title').value;
             post_json.author    = document.getElementById('post_author').value;
             post_json.post_type = document.getElementById('post_type').value;
             post_json.permalink = document.getElementById('post_permalink').value;
             post_json.categories = document.getElementById('post_subjects').value;
+            post_json.thumbnail = document.getElementById('post_thumbnail').value;
+            if (post_json.file == undefined){
+                let root = '/_posts/'
+                if (post_json.post_type == "episode"){
+                    root = '/_episodes/'
+                }
+                post_json.file = root + post_json.permalink.replace(/[^a-zA-Z0-9]/g, '-').toLowerCase() + '.html'
+
+            }
+            post_json.content = tinymce.activeEditor.getContent();
+            return post_json
+        }
+
+        
+        //-------------------------------------------
+        function get_latest_post_before_save(){
+            let post_json = get_latest_post_data();
+  
             
+            if (post_json == undefined){M.toast({'html' : 'יש להתחיל פוסט חדש לפני השמירה', classes: 'רקג warning'}); return false}
+
             if (post_json.categories != ""){post_json.categories = post_json.categories.split(',')}
             
             if (post_json.title == ""){
@@ -261,18 +286,9 @@
                 M.toast({'html' : ' (permalink) נא להכניס את כתובת הפוסט ', classes: 'red warning'}); return false;
             }
 
-            if (post_json.file == undefined){
-                let root = '/_posts/'
-                if (post_json.post_type == "episode"){
-                    root = '/_episodes/'
-                }
-                post_json.file = root + post_json.permalink.replace(/[^a-zA-Z0-9]/g, '-').toLowerCase() + '.html'
-
-            }
-            post_json.content = tinymce.activeEditor.getContent();
             return post_json;
         }
-        async function save_post(event){
+        function save_post(event){
             let post_json = get_latest_post_before_save()
             if (post_json == false){return}      
             fetch('update_post', 
@@ -290,13 +306,51 @@
             
             
         }
+
+        //-------------------------------------------
+        function add_new_post(event){
+            let todayDate = new Date().toISOString().slice(0, 10);
+            let rand_str = Math.random().toString(36).substr(2, 5);
+
+            let post_json = {
+                title : `${todayDate}-כותרת לפוסט החדש`,
+                author : 'דנה הילמן',
+                post_type : 'episode',
+                permalink : `/${todayDate}-new-post-${rand_str}`,
+                categories : [],
+                thumbnail : '/assets/avar-plyly-logo.jpg',
+                content : "אין עוד תוכן בפרק זה",
+                layout : "post",
+                date : todayDate,
+            }
+            load_content_to_tinymce_editor(post_json)
+        }
             
 
-
+        function delete_post(event){
+            if (confirm('האם למחוק את הפוסט הזה?')) {
+                post_json = get_latest_post_data();
+                fetch('delete_post', 
+                {
+                    method: 'POST',
+                    headers: {'Accept': 'application/json','Content-Type': 'application/json'},
+                    body: JSON.stringify(post_json)
+                })
+                .then(response => response.json())
+                .then(res => {
+                    if (res.exist == false){
+                        M.toast({html: "נמחק", classes: 'success'});
+                        window.location.href = '/';
+                    } else{
+                        M.toast({html: "פוסט לא נמחק", classes: 'red warning'});
+                    }
+                });
+                } 
+        }
         
         
-        
-            //--------------------------------------------
+        // ---- ASSETS -------------------------------
+        //--------------------------------------------
         fetch('/get_assets_list')
             .then(response => response.json())
             .then(posts => load_and_process_assets(posts));

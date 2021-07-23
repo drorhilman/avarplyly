@@ -93,6 +93,15 @@ def update_post():
         f.write(html_content)
     return jsonify({'status': 'ok', 'file': filename, 'exist' : os.path.isfile(filename)})
 
+
+@app.route('/delete_post', methods=['POST'])
+def delete_post():
+    post_data = request.get_json()
+    filename = '../' + post_data['file']
+    if os.path.isfile(filename):
+        os.remove(filename)
+    return jsonify({'status': 'ok', 'file': filename, 'exist' : os.path.isfile(filename)})
+
 #=============================================================
 if __name__ == '__main__':
     # episodes = glob.glob('../_episodes/*.*')
