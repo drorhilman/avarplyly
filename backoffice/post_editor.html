@@ -104,7 +104,7 @@
                         <div class="row">
                             <a class="btn green" onclick="save_post(event)">שמור</a>
                             <a class="btn blue" onclick="local_preview_post(event)">הצג באתר מקומי</a>
-                            <a class="btn orange">פרסם</a>
+                            <a class="btn orange" onclick="push_to_github(event)">פרסם</a>
                             <a class="btn red" onclick="delete_post(event)">מחק</a>
                         </div>
                     </div>
@@ -256,11 +256,13 @@
             post_json.permalink = document.getElementById('post_permalink').value;
             post_json.categories = document.getElementById('post_subjects').value;
             post_json.thumbnail = document.getElementById('post_thumbnail').value;
+            
             if (post_json.file == undefined){
                 let root = '/_posts/'
                 if (post_json.post_type == "episode"){
                     root = '/_episodes/'
                 }
+                root = root.replace('//', '/')
                 post_json.file = root + post_json.permalink.replace(/[^a-zA-Z0-9]/g, '-').toLowerCase() + '.html'
 
             }
@@ -322,6 +324,7 @@
                 content : "אין עוד תוכן בפרק זה",
                 layout : "post",
                 date : todayDate,
+                modified_time : todayDate
             }
             load_content_to_tinymce_editor(post_json)
         }
@@ -348,6 +351,19 @@
                 } 
         }
         
+
+        function push_to_github(event){
+            if(confirm("האם לעדכן את האתר?")){
+                fetch('/push_changes')
+                .then(response => response.json())
+                .then(res => {
+                    console.log(res);
+                    if (res.status == "ok"){
+                        M.toast({html: "עדכון הושלם", classes: 'success'});
+                    }
+                });
+            }
+        }
         
         // ---- ASSETS -------------------------------
         //--------------------------------------------
