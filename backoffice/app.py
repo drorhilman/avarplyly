@@ -1,5 +1,5 @@
 from flask import Flask, send_from_directory, jsonify, request
-import os, glob, yaml, subprocess, builtins
+import os, glob, yaml, subprocess, builtins, sys
 
 builtins.proc = ''
 
@@ -18,7 +18,10 @@ def load_post(filename, return_content = False):
         
 
 def start_local_jekyll_server():
-    builtins.proc = subprocess.Popen(["bundle", "exec","jekyll", "serve"], cwd="../", shell=True)
+    shell = True # on windows
+    if sys.platform.startswith('linux'):
+        shell = False
+    builtins.proc = subprocess.Popen(["bundle", "exec","jekyll", "serve"], cwd="../", shell=shell)
     return str(builtins.proc)
 
 # -------------------------- API -------------------------
