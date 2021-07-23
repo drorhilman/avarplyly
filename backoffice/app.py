@@ -18,7 +18,7 @@ def load_post(filename, return_content = False):
         
 
 def start_local_jekyll_server():
-    builtins.proc = subprocess.Popen(["bundle", "exec","jekyll", "serve"], cwd="../")
+    builtins.proc = subprocess.Popen(["bundle", "exec","jekyll", "serve"], cwd="../", shell=True)
     return str(builtins.proc)
 
 # -------------------------- API -------------------------
