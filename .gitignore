@@ -6,3 +6,5 @@ vendor
 assets/romysbaby.jpg
 temp/*.*
 backoffice/__pycache__/app.cpython-38.pyc
+backoffice/__pycache__/
+/__pycache__
