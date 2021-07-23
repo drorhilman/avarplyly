@@ -80,6 +80,19 @@ def start_jakyll():
     return jsonify({'process': start_local_jekyll_server(), 'address': 'http://localhost:4000'})
     
 
+
+@app.route('/update_post', methods=['POST'])
+def update_post():
+    post_data = request.get_json()
+    filename = '../' + post_data['file']
+    html_content = str(post_data['content'])
+    del post_data['content']
+    header = str(yaml.dump(post_data, allow_unicode=True))
+    html_content = f'---\n{header}---\n{html_content}'
+    with open(filename, 'w') as f:
+        f.write(html_content)
+    return jsonify({'status': 'ok', 'file': filename, 'exist' : os.path.isfile(filename)})
+
 #=============================================================
 if __name__ == '__main__':
     # episodes = glob.glob('../_episodes/*.*')
