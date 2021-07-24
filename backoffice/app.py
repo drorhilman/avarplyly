@@ -1,8 +1,8 @@
 from flask import Flask, send_from_directory, jsonify, request
 import os, glob, yaml, subprocess, builtins, sys
+from resources_analysis import site_resources, save_legal_status
 
 builtins.proc = ''
-
 
 
 
@@ -52,6 +52,11 @@ def post_editor():
     with open("post_editor.html","r", encoding="utf8") as f:
         return f.read()
 
+@app.route("/resource_managment")
+def resource_managment():
+    with open("site_resource_managment.html","r", encoding="utf8") as f:
+        return f.read()
+
 @app.route('/js/<path:path>')
 def send_js(path):
     return send_from_directory('js', path)
@@ -60,6 +65,10 @@ def send_js(path):
 @app.route('/assets/<path:path>')
 def assets(path):
     return send_from_directory('../assets/', path)
+
+@app.route('/_site/<path:path>')
+def site_(path):
+    return send_from_directory('../_site/', path)
 
 @app.route('/get_posts')
 def get_posts():
@@ -128,6 +137,18 @@ def delete_post():
 @app.route('/push_changes')
 def api_commit_and_push():
     return commit_and_push(commit_message = "pushed by backoffice")
+
+
+@app.route('/site_resources')
+def get_site_resources():
+    return jsonify(site_resources().to_dict(orient="records"))
+
+
+@app.route('/update_legal_status', methods=['POST'])
+def update_legal_status():
+    data = request.get_json()
+    data = save_legal_status(data)
+    return jsonify({"status": "success", 'data' : data})
 
 #=============================================================
 if __name__ == '__main__':

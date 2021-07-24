@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="יק">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+      
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css"> 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <script src="https://cdn.tiny.cloud/1/da3ihm5dotvgc7ihyhfxlhmax26ye6w5nal0bmfmreky9r1w/tinymce/5/tinymce.min.js" ></script>
+
+    <style>
+        .resource-row img{
+            width:50px;
+            height:auto;
+        }
+        td{
+            max-width:30%;
+            overflow-x: hidden;
+        }
+    </style>
+
+    <title>ניהול משאבים - עבר פלילי</title>
+</head>
+<body dir="rtl" lang="he">
+    <div class="row" style="margin:10px; 20px;">
+        <div class="col s12 m12 l12">
+            <h3>עבר פלילי - ניהול משאבים</h3>
+        </div>
+        <div class="col s12">
+            <table dir="ltr">
+                <thead>
+                    <tr>
+                        <th style="width:10%">view</th>
+                        <th style="width:10%">resource path</th>
+                        <th style="width:20%">source page</th>
+                        <th style="width:60%">legal source / owner</th>
+                    </tr>
+                </thead>
+                <tbody id="resource_table_body">
+
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+    <script>
+        
+        let resource_table_body = document.getElementById("resource_table_body");
+
+
+        //---------------------------------------------
+        function get_link_to_site_page(site_page){
+            return site_page;
+        }
+
+        //---------------------------------------------
+        function populate_table_wih_resources(resources) {
+            
+            rows = ""
+            for (resource of resources) {
+                rows +=`<tr class="resource-row">
+                        <td><img src="${resource.path}"/></td>
+                        <td><a href = "${resource.path}">content link</a></td>
+                        <td><a href="${get_link_to_site_page(resource.source)}">${resource.source}</a></td>
+                        <td>
+                            <input class="legal_cource", 
+                                   resource="${resource.path}"
+                                   placeholder="מקור חוקי"
+                                   >
+                                   </input>
+                        </td>
+                       </tr>`
+            }
+            resource_table_body.innerHTML = rows;
+        }
+        
+        //---------------------------------------------
+        function load_resources() {
+            fetch("site_resources")
+            .then(response => response.json())
+            .then(resources => populate_table_wih_resources(resources));
+        }
+
+        //---------------------------------------------
+        load_resources();
+
+        
+        //---------------------------------------------
+        function resource_changed(resource, legal_source){
+            let chnaged_status = {'resource' : resource, 'legal_source' : legal_source};
+            fetch('update_legal_status', 
+                {
+                    method: 'POST',
+                    headers: {'Accept': 'application/json','Content-Type': 'application/json'},
+                    body: JSON.stringify(chnaged_status)
+                })
+                .then(response => response.json())
+                .then(response => {
+                    if (response.status == "success"){
+                        let message =`<h6>Legal remark for ${resource} <br/> has changed to <br/> " ${legal_source}  "</h6>`;
+                        M.toast({html: message, displayLength: 2000, classes: "white blue-text"});
+                        }
+                    }
+                );
+
+            
+        }
+        
+        //---------------------------------------------
+        resource_table_body.addEventListener("change", function(event) {
+            let resource = event.target.getAttribute("resource");
+            let legal_source = event.target.value;
+            resource_changed(resource, legal_source)
+        });
+    </script>
+</body>
+</html>
