@@ -37,12 +37,15 @@
                             <input type="submit" value="תמיכה בפודקאסט"  border="0" name="submit" title="PayPal תרום עם" alt="PayPal תרום עם " />
                             </form>
                     </a>
-                </div>    
+                </div>
+
             </div>
 
             <!-- LAST EPISODES section .... -->
             <div class="last-episodes-section">
                 {% assign episodes = site.episodes | sort: 'date' | reverse %}
+                <div style="font-weight:100;" >האתר אינו מסחרי ופועל לטובת הציבור. אם הוכנסו בטעות חומרים הפוגעים בזכויות יוצרים, אנא הודיעו לנו על כך והם יוסרו מיד.</div>
+                <div style="margin-bottom:10px;" >כל הזכויות שמורות לדנה ודרור הילמן 2021 © </div>
 
                 <h3>פרקים אחרונים</h3>
                 <div class="last-episodes-section-list">
@@ -97,6 +100,7 @@
                 <div class="last-episodes-section">
                     <h3>נושאים</h3>
                     {% include categories-list.html %}
+
                 </div>
                 
             </div>
@@ -104,7 +108,6 @@
             
 
         </div>
-        <div>כל הזכויות שמורות לדנה ודרור הילמן 2021 © </div>
         <!-- "container end" -->
     </body>
 </html>
