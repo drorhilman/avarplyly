@@ -61,14 +61,16 @@
             
             rows = ""
             for (resource of resources) {
+                console.log(resource);
                 rows +=`<tr class="resource-row">
-                        <td><img src="${resource.path}"/></td>
-                        <td><a href = "${resource.path}">content link</a></td>
+                        <td><img alt="" title="${resource.path}" src="${resource.path}"/></td>
+                        <td><a href = "${resource.path}">${resource.path.substring(0, 40)}</a></td>
                         <td><a href="${get_link_to_site_page(resource.source)}">${resource.source}</a></td>
                         <td>
                             <input class="legal_cource", 
                                    resource="${resource.path}"
                                    placeholder="מקור חוקי"
+                                   value = "${resource.legal_source}"
                                    >
                                    </input>
                         </td>
