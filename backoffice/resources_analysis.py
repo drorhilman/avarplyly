@@ -52,7 +52,7 @@ def save_legal_status(data):
 def load_legal_status():
     records = (pd.DataFrame(
                 [
-                    json.load(open(file)) 
+                    json.load(open(file, encoding="utf-8")) 
                     for file in glob('legal_records/*.json')
                 ]
                 )
