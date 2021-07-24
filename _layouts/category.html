@@ -28,7 +28,8 @@ layout: default
                 {% for cat in post.categories %} 
                     {% if cat == page.tag %}
                         <a class="episode-card" href="{{post.url}}">
-                            <img src="{{post.thumbnail}}" alt="{{post.title}}">
+                            <!-- <img src="{{post.thumbnail}}" alt="{{post.title}}"> -->
+                            <img src="/assets/avar_plyly_logo.jpg" alt="{{post.title}}" />
                             <div class="episode-card-content">
                                 <h3>{{post.title}}</h3>
                                 <p>{{ post.content | strip_html | truncatewords: 40 }}</p>
