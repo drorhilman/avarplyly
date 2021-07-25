@@ -42,9 +42,11 @@ collections:
   episodes:
     output: true
     permalink: /episodes/:path/
+    future: true
   category:
     output: true
     permalink: /:path/
+    future: true
 
 defaults:
   -
