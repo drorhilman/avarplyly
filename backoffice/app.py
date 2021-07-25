@@ -32,6 +32,7 @@ def run(*args):
 
 def commit_and_push(commit_message):
     try:
+        run('pull')
         run('add', '_episodes/*.*')
         run('add', '_posts/*.*')
         run('add', '.')
