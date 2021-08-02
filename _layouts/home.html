@@ -51,8 +51,8 @@
                     {% for episode in episodes limit:1 %}
 
                     <a class="record-card-first hvr-fade" href='{{episode.url}}'>
-                        <!-- <img src="{{ episode.thumbnail }}"> -->
-                        <img src="/assets/avar_plyly_logo.jpg" alt="{{episode.title}}">
+                        <img src="{{ episode.thumbnail }}">
+                        <!-- <img src="/assets/avar_plyly_logo.jpg" alt="{{episode.title}}"> -->
                         <span><span>{{ episode.title }}</span></span>
                     </a>
                     {% endfor %}
@@ -62,8 +62,8 @@
                     <div class="record-cards-small">
                         {% for episode in episodes offset:1 limit:4 %}
                         <a class="record-card hvr-fade" href='{{episode.url}}'>
-                            <!-- <img src="{{ episode.thumbnail }}"> -->
-                            <img src="/assets/avar_plyly_logo.jpg" alt="{{episode.title}}">
+                            <img src="{{ episode.thumbnail }}">
+                            <!-- <img src="/assets/avar_plyly_logo.jpg" alt="{{episode.title}}"> -->
                             <span><span>{{ episode.title }}</span></span>
                         </a>
                         {% endfor %}
@@ -82,8 +82,8 @@
                 <div class=".posts-cards-small">
                     {% for post in site.posts offset:1 limit:4 %}
                     <a class="record-card hvr-fade" href='{{post.url}}'>
-                        <!-- <img src="{{post.thumbnail}}"> -->
-                        <img src="/assets/avar_plyly_logo.jpg" alt="{{post.title}}">
+                        <img src="{{post.thumbnail}}">
+                        <!-- <img src="/assets/avar_plyly_logo.jpg" alt="{{post.title}}"> -->
                         <span>
                             <span>
                             {{post.title}}
@@ -97,12 +97,11 @@
                 <a class="more-episodes-btn" href='/posts'>לכל הרשומות...</a>
                 </div>
                 <div class="last-episodes-section">
-                    <h3>נושאים</h3>
-                    {% include categories-list.html %}
+                   
                     <div style="font-weight:100; margin-bottom:10px;" >האתר אינו מסחרי ופועל לטובת הציבור. אם הוכנסו בטעות חומרים הפוגעים בזכויות יוצרים, אנא הודיעו לנו על כך והם יוסרו מיד.</div>
 
-                    <div style="margin-bottom:10px;" >כל הזכויות שמורות לדנה הילמן 2021 © </div>
-                    <div style="font-weight:100; margin-bottom:10px;" >בניית האתר: דרור הילמן 2021</div>
+                    <div style="margin-bottom:10px;" >כל הזכויות שמורות לדנה הילמן, 2021 © </div>
+                    <div style="font-weight:100; margin-bottom:10px;" >בניית האתר: דרור הילמן</div>
 
                 </div>
                 
