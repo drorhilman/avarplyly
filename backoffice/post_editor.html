@@ -270,15 +270,15 @@
             post_json.permalink = document.getElementById('post_permalink').value;
             post_json.categories = document.getElementById('post_subjects').value;
             post_json.thumbnail = document.getElementById('post_thumbnail').value;
-            
-            if (post_json.file == undefined){
-                let root = '/_posts/'
+            let root = '/_posts/'
                 if (post_json.post_type == "episode"){
                     root = '/_episodes/'
                 }
-                root = root.replace('//', '/')
+            root = root.replace('//', '/')
+            if (post_json.file == undefined){
                 post_json.file = root + post_json.permalink.replace(/[^a-zA-Z0-9]/g, '-').toLowerCase() + '.html'
-
+            } else {
+                post_json.file = root + post_json.split('/')[1]
             }
             post_json.content = tinymce.activeEditor.getContent();
             return post_json
