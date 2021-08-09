@@ -20,9 +20,13 @@
           cursor:pointer;
        }
        .asset-image{
-        width:20%; 
+        width:80%; 
         height:auto;
         margin:10px;
+       }
+       .asset-image-desc{
+        width:80%;
+        font-size: 10px;
        }
        #assets_list{
            height:800px;
@@ -60,6 +64,7 @@
                           <a class="btn orange" href="resource_managment">ניהול חוקי</a>
                         </form>
                         <h6>תמונות במערכת<br/>(לחצו להעתיק לינק)</h6>
+                        <input type='text' id="image-search" placeholder="חיפוש תמונה" onchange="search_image(event)"/>
                         <div id="assets_list"></div>
                     </div>
                 </div>
@@ -214,9 +219,18 @@
         //-------------------------------------------
         // load all available assets
         function load_and_process_assets(assets){
+            if (window.assets == undefined){
+                window.assets = assets; // save in a global var
+            }
+            var search_term = document.getElementById('image-search').value;
+            if(search_term == undefined){search_term = ''}
+
             let imgs = "";
             for (asset of assets){
-                imgs += `<img class="asset-image" src="${asset}" onclick="image_clicked(event)"/>`
+                if(asset.includes(search_term) | (search_term == '')){
+                    imgs += `<img class="asset-image" src="${asset}" onclick="image_clicked(event)"/>`
+                    imgs += `<span class="asset-image-desc"">${asset}</span>`
+                }
             }
             document.getElementById("assets_list").innerHTML = imgs;
         }
@@ -394,6 +408,12 @@
                 }
             });
         })
+
+        function search_image(event) {
+            load_and_process_assets(window.assets)
+            M.toast({'html' : 'search', classes: 'warning'});
+        }
+
     </script>
 
       </body>
