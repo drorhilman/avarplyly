@@ -66,6 +66,7 @@ body{
     z-index: 1;
     width: 100vw; 
     top:0;
+    width:100%; 
     height:28px;
     padding-top:20px;
     padding: 15px 0;
@@ -79,7 +80,9 @@ body{
     width:var(--container-width);
     height:24px;
     left:50%;
-    margin-left:var(--container-middle);  
+    margin-left:var(--container-middle);
+    
+    
 }
 
 #header-links{
@@ -398,9 +401,9 @@ body{
 /*  POST / EPISODES DESIGN */
 
 .post-content {
-    margin: 100px 0;
+    margin: 100px auto;
     padding:20px;
-    display:block;article
+    display:block;
     max-width:960px;
     font-weight:300;
     line-height: 1.5em;
@@ -662,7 +665,12 @@ h1.post-title {
         height:24px;
         left:50%;
         margin-left:-50%;
-        padding: 0 3px;main-v5
+        padding: 0 3px;
+    }
+    #header-links{
+        float:none;
+    }
+    #header-links li > a{
         padding:3px;
         border-radius: 6px;
         color:var(--alice-blue);
