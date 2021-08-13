@@ -66,7 +66,6 @@ body{
     z-index: 1;
     width: 100vw; 
     top:0;
-    width:100%; 
     height:28px;
     padding-top:20px;
     padding: 15px 0;
@@ -80,9 +79,7 @@ body{
     width:var(--container-width);
     height:24px;
     left:50%;
-    margin-left:var(--container-middle);
-    
-    
+    margin-left:var(--container-middle);  
 }
 
 #header-links{
@@ -401,9 +398,9 @@ body{
 /*  POST / EPISODES DESIGN */
 
 .post-content {
-    margin: 100px auto;
+    margin: 100px 0;
     padding:20px;
-    display:block;
+    display:block;article
     max-width:960px;
     font-weight:300;
     line-height: 1.5em;
@@ -656,15 +653,43 @@ h1.post-title {
     .hide-small {display: none;} 
 }
 
+
+/*
+#header{
+    top:3px;
+    margin-top:10px;
+    position:fixed;
+    width:var(--container-width);
+    height:24px;
+    left:50%;
+    margin-left:var(--container-middle);  
+}
+*/
 @media screen and (max-width: 768px) {
+    #main-page-title-large-buttons{
+        padding: 0 20px;
+    }
+    #main-page-title-large-buttons a{
+        text-decoration: none;
+        font-family: var(--rubik-font);
+        padding:2px 10px;
+        font-size:14px;
+        border:1px solid white;
+        border-radius:20px;
+        color:white;
+        background:rgba(0,0,0,0.5)
+    }
+
     .hide-mobile {display: none;} 
+
     #header{
-        width:100%;
-        top:0;
-        margin-top:3px;
-        height:24px;
-        left:50%;
-        margin-left:-50%;
+    top:0px;
+    margin-top:3px;
+    position:fixed;
+    width:99%;
+    height:24px;
+    left:50%;
+    margin-left:-50%; 
     }
     #header-links{
         float:none;
@@ -674,7 +699,7 @@ h1.post-title {
         border-radius: 6px;
         color:var(--alice-blue);
         text-decoration:none;
-        font-size:12px;
+        font-size:11px;
         
     }
     #header-links li{
