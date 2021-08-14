@@ -1,13 +1,7 @@
 
 @import url('https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300;0,500;0,600;1,300&display=swap');
 
-html,body {
-    width: 100%;
-    height: 100%;
-    margin: 0px;
-    padding: 0px;
-    overflow-x: hidden;
-}
+
 
 
 ::-webkit-scrollbar {
@@ -46,11 +40,18 @@ html,body {
     padding:0;
 }
 
+html,body {
+    width: 100%;
+    margin: 0px;
+    padding: 0px;
+}
+
 body{
     background-color: var(--main-bg-color);
     font-family: var(--rubik-font);
     color:var(--alice-blue);
     scrollbar-width: thin;
+    overflow-x: hidden;
 }
 
 
@@ -340,7 +341,9 @@ body{
     color:red;
 }
 
-
+.post{
+    width:auto;
+}
 
 
 
@@ -663,7 +666,7 @@ h1.post-title {
 @media screen and (max-width: 768px) {
     .hide-mobile {display: none;} 
     #header{
-        width:100%;
+        width:auto;
         max-width:960px;
         top:0;
         margin-top:3px;
@@ -671,6 +674,17 @@ h1.post-title {
         right:50%;
         margin-right:-50%;
     }
+    #header-container{
+        position:fixed;
+        z-index: 1;
+        top:0;
+        width:100%; 
+        height:28px;
+        padding-top:20px;
+        padding: 15px 0;
+        background-color:rgba(0,0,0,0);
+    }
+    
     #header-links{
         float:none;
     }
@@ -746,7 +760,27 @@ h1.post-title {
     .contact img{
         width:60px;
     }
+
+    #main-page-title-large-buttons{
+        margin-top:40px;
+        display:flex;
+        flex-direction:column;
+    }
+    
+    #main-page-title-large-buttons a{
+        text-decoration: none;
+        font-family: var(--rubik-font);
+        padding:8px 20px;
+        font-size:20px;
+        border:1px solid white;
+        border-radius:20px;
+        color:white;
+        margin:5px;
+        background:rgba(0,0,0,0.5)
+    }
 }
 
 
 
+#st_gdpr_iframe {display: none!important;}
+#nr-ext-rsicon{display: none!important;}

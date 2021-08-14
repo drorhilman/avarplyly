@@ -24,22 +24,25 @@
         const location_id = md5(window.location.pathname);
         database.ref(`comments/${location_id}`).once('value').then((snapshot) => {
             const comments = snapshot.val();
+            if (comments !== null && comments !== undefined && comments.length > 0){
+                
             
             // iterate over loaded comments ...
-            let comments_html = "";
-            for (const [comment_id, comment] of Object.entries(comments)) {
-    
-                var d = new Date(comment.postedAt);
-                var date = `${d.getUTCDay()}/${d.getUTCMonth()}/${d.getUTCFullYear()}`
-                comments_html += '<div class="comment-wrap">';
-                comments_html += '<div class="comment-name">' + comment.name;
-                comments_html += '<div class="comment-date">' + date + '</div></div>';
-                comments_html += '<div class="comment-content">' + comment.content + '</div>';
-                comments_html += '</div>';
+                let comments_html = "";
+                for (const [comment_id, comment] of Object.entries(comments)) {
+        
+                        var d = new Date(comment.postedAt);
+                        var date = `${d.getUTCDay()}/${d.getUTCMonth()}/${d.getUTCFullYear()}`
+                        comments_html += '<div class="comment-wrap">';
+                        comments_html += '<div class="comment-name">' + comment.name;
+                        comments_html += '<div class="comment-date">' + date + '</div></div>';
+                        comments_html += '<div class="comment-content">' + comment.content + '</div>';
+                        comments_html += '</div>';
+                    }
+                    const comment_section = document.getElementById('comment-section');
+                    
+                    comment_section.innerHTML = comments_html;
             }
-            const comment_section = document.getElementById('comment-section');
-            
-            comment_section.innerHTML = comments_html;
 
         });
 
