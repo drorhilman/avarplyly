@@ -9,6 +9,10 @@ layout: default
     <div class="sharethis-inline-share-buttons"></div>
     <br/>
     <h1 class="post-title">{{ page.title | escape }}</h1>
+    {% for cat in page.categories %} 
+      <a href="/category-{{ cat }}" 
+        style="cursor:pointer; margin-left:15px; font-size:0.8em;">{{cat}} </a>
+    {% endfor %} 
     {{ content }}
 
     {% include firebase-comments.html %}
