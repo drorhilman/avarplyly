@@ -263,7 +263,10 @@
 
         //-------------------------------------------
         function get_latest_post_data(){
-            let post_json = window.current_post;
+            let post_json = {}
+            if(window.current_post != undefined){
+                post_json = window.current_post;
+            } 
             post_json.title     = document.getElementById('post_title').value;
             post_json.author    = document.getElementById('post_author').value;
             post_json.post_type = document.getElementById('post_type').value;
@@ -278,7 +281,7 @@
             if (post_json.file == undefined){
                 post_json.file = root + post_json.date +"-" + post_json.permalink.replace(/[^a-zA-Z0-9]/g, '-').toLowerCase() + '.html'
             } else {
-                post_json.file = root + post_json.split('/')[1]
+                post_json.file = root + post_json.file.split('/')[1]
             }
             post_json.content = tinymce.activeEditor.getContent();
             return post_json
