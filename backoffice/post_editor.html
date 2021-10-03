@@ -278,7 +278,7 @@
                     root = '/_episodes/'
                 }
             root = root.replace('//', '/')
-            if (post_json.file == undefined){
+            if ((post_json.file == undefined) | (post_json.file=="/_posts/_posts")){
                 post_json.file = root + post_json.date +"-" + post_json.permalink.replace(/[^a-zA-Z0-9]/g, '-').toLowerCase() + '.html'
             } else {
                 post_json.file = root + post_json.file.split('/')[1]
